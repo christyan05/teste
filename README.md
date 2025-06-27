@@ -38,7 +38,7 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'ace-flow-cache-v11';
+                    const CACHE_NAME = 'ace-flow-cache-v12';
                     self.addEventListener('install', event => {
                         event.waitUntil(
                             caches.open(CACHE_NAME).then(cache => {
@@ -253,8 +253,7 @@
         </section>
 
         <!-- BOTÕES DE AÇÃO -->
-        <footer class="grid grid-cols-2 md:grid-cols-4 gap-4 my-6">
-            <button id="reportBtn" class="btn btn-secondary">Relatório</button>
+        <footer class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
             <button id="clearDayBtn" class="btn btn-danger">Limpar Dia</button>
             <button id="savePdfBtn" class="btn btn-primary">Gerar PDF</button>
             <button id="saveRemoteBtn" class="btn btn-primary">Enviar p/ Planilha</button>
@@ -275,24 +274,6 @@
             </div>
         </div>
     </div>
-    
-    <div id="reportModal" class="fixed inset-0 z-50 modal hidden">
-         <div class="card p-4 md:p-6 w-11/12 max-w-4xl max-h-[90vh] flex flex-col">
-            <header class="flex justify-between items-center border-b pb-3 mb-4">
-                <h2 class="section-title">Relatório de Atividades</h2>
-                <button id="closeReportModalBtn" class="text-3xl font-bold">&times;</button>
-            </header>
-            <div class="flex-grow overflow-y-auto">
-                <p class="text-center my-8 text-text-muted">Funcionalidade de Relatórios e Gráficos em desenvolvimento.</p>
-                <!-- Filtros (a implementar) -->
-                <!-- Gráfico (a implementar) -->
-                <canvas id="reportChart" class="hidden"></canvas>
-                <!-- Tabela (a implementar) -->
-                <div id="reportTableContainer"></div>
-            </div>
-        </div>
-    </div>
-
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -312,7 +293,6 @@
         let visitaCounter = 0;
         let confirmCallback = null;
         let dailyGoal = 0;
-        let myChart;
 
         // --- SELETORES DO DOM ---
         const mainContent = document.querySelector('main');
@@ -333,9 +313,6 @@
         const modalMessage = document.getElementById('modalMessage');
         const modalConfirmBtn = document.getElementById('modalConfirmBtn');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
-        const reportModal = document.getElementById('reportModal');
-        const reportBtn = document.getElementById('reportBtn');
-        const closeReportModalBtn = document.getElementById('closeReportModalBtn');
         const fixedInfoBar = document.getElementById('fixed-info-bar');
         const fixedAgentName = document.getElementById('fixed-agent-name');
         const fixedPropertyInfo = document.getElementById('fixed-property-info');
@@ -889,8 +866,6 @@
                 location.reload();
             });
         });
-        reportBtn.addEventListener('click', () => reportModal.classList.remove('hidden'));
-        closeReportModalBtn.addEventListener('click', () => reportModal.classList.add('hidden'));
 
         mainContent.addEventListener('input', (e) => {
             if (e.target.matches('.form-input, .form-select')) {
